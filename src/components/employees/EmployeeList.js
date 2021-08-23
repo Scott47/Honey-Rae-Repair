@@ -23,6 +23,7 @@ export const EmployeeList = () => {
 
     return (
         <>
+        <h2>Employees</h2>
         <div>Specialties: {employeeSpecialties}</div>
             {
                 employees.map(

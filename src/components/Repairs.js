@@ -1,6 +1,4 @@
-import { CustomerList } from "./customers/CustomerList"
-import { EmployeeList } from "./employees/EmployeeList"
-import { TicketList } from "./serviceTickets/TicketList"
+
 import "./Repairs.css"
 
 export const Repairs = () => {

@@ -3,11 +3,10 @@ import React, { useEffect, useState } from "react"
 export const CustomerList = () => {
     const [customers, setCustomers] = useState([])
     const [totalCustomerMessage, updateMessage] = useState("")
-    const baseUrl = "http://localhost:8088"
-
+    
     useEffect(
         () => {
-            fetch(`${baseUrl}/customers`)
+            fetch(`${process.env.REACT_APP_BASE_URL}/customers`)
                 .then(res => res.json())
                 .then(
                     (customers) => setCustomers(customers)

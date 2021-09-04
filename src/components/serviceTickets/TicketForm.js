@@ -2,15 +2,14 @@ import React, { useState } from "react"
 import { useHistory } from "react-router";
 
 export const TicketForm = () => {
-    const [ticket, updateTicket] = useState({
-        description: "",
+    const [ticket, setTicket] = useState({
+        description: null,
         emergency: false
-        
     });
+
     const history = useHistory()
     
-    const submitTicket = (e) => {
-        e.preventDefault()
+    const submitTicket = () => {
         const newTicket = {
             description: ticket.description,
             emergency: ticket.emergency,
@@ -18,7 +17,7 @@ export const TicketForm = () => {
             employeeId: 1,
             dateCompleted: ""
         }
-
+debugger
         const fetchOptions = {
             method: "POST",
             headers: {
@@ -26,13 +25,13 @@ export const TicketForm = () => {
             },
             body: JSON.stringify(newTicket)
         }
-        return fetch("http://localhost:8088/serviceTickets", fetchOptions)
+        return fetch(`${process.env.REACT_APP_BASE_URL}/serviceTickets`, fetchOptions)
             .then(response => response.json())
             .then(() => history.push("/tickets"))
     }
 
     return (
-        <form className="ticketForm">
+        <form className="ticketForm" onSubmit={(e) => e.preventDefault()}>
             <h2 className="ticketForm__title">New Service Ticket</h2>
             <fieldset>
                 <div className="form-group">
@@ -45,7 +44,7 @@ export const TicketForm = () => {
                         onChange={(evt) => {
                             const currentTicket = {...ticket}
                             currentTicket.description = evt.target.value
-                            updateTicket(evt.target.value)
+                            setTicket(currentTicket)
                         }} />
                 </div>
             </fieldset>
@@ -56,7 +55,7 @@ export const TicketForm = () => {
                         onChange={(evt) => {
                             const currentTicket = {...ticket}
                             currentTicket.emergency = evt.target.checked
-                            updateTicket(currentTicket)
+                            setTicket(currentTicket)
                         }} />
                 </div>
             </fieldset>

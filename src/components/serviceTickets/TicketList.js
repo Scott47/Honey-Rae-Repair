@@ -3,13 +3,11 @@ import { useHistory } from "react-router"
 
 export const TicketList = () => {
     const [tickets, setServiceTickets] = useState([])
-    const baseUrl = "http://localhost:8088"
     const history = useHistory()
-
 
     useEffect(
         () => {
-            fetch(`${baseUrl}/serviceTickets?_expand=customer&_expand=employee`)
+            fetch(`${process.env.REACT_APP_BASE_URL}/serviceTickets?_expand=customer&_expand=employee`)
                 .then(res => res.json())
                 .then(
                     (serviceTickets) => setServiceTickets(serviceTickets)

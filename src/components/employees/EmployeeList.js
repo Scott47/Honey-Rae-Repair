@@ -3,12 +3,9 @@ import React, { useEffect, useState } from "react"
 export const EmployeeList = () => {
     const [employees, setEmployees] = useState([])
     const [ employeeSpecialties, setEmployeeSpecialties] = useState("")
-
-    const baseUrl = "http://localhost:8088"
-
     useEffect(
         () => {
-            fetch(`${baseUrl}/employees`)
+            fetch(`${process.env.REACT_APP_BASE_URL}/employees`)
                 .then(res => res.json())
                 .then(
                     (employees) => setEmployees(employees)

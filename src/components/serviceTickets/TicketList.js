@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
+import "./Ticket.css"
 
 export const TicketList = () => {
     const [tickets, setServiceTickets] = useState([])
@@ -25,9 +26,11 @@ export const TicketList = () => {
             {
                 tickets.map(ticket =>
                     <div key={ticket.id}>Issue #: {ticket.id}
-                        <p>Description: {ticket.description}</p>
-                        <p>Customer: {ticket.customer?.name}</p>
-                        <p>Employee: {ticket.employee?.name}</p>
+                        <p className={ticket.emergency ? "emergency" : "ticket"}>
+                            {ticket.emergency ? "🚑" : ""} {ticket.description} submitted by {ticket.customer?.name} 
+                            and worked on by {ticket.employee?.name}
+                        </p>
+
                     </div>
                 )
             }

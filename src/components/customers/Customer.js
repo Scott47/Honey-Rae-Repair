@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
+import { retrieiveOneCustomer } from '../ApiManager'
 
 export const Customer = () => {
     const [customer, setCustomer] = useState({})
-
     const { customerId } = useParams()
 
-    useEffect(() => {
-        return fetch(`${process.env.REACT_APP_BASE_URL}/customers/${customerId}`)
-            .then(res => res.json())
-            .then(setCustomer)
-    }, [customerId])
+    useEffect(() => retrieiveOneCustomer().then(setCustomer), [customerId])
 
     return (
         <>

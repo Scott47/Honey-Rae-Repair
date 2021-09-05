@@ -1,5 +1,6 @@
 import React, { useState } from "react"
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
+import { createTicket } from "../ApiManager";
 
 export const TicketForm = () => {
     const [ticket, setTicket] = useState({
@@ -8,7 +9,7 @@ export const TicketForm = () => {
     });
 
     const history = useHistory()
-    
+
     const submitTicket = () => {
         const newTicket = {
             description: ticket.description,
@@ -17,17 +18,7 @@ export const TicketForm = () => {
             employeeId: 1,
             dateCompleted: ""
         }
-debugger
-        const fetchOptions = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newTicket)
-        }
-        return fetch(`${process.env.REACT_APP_BASE_URL}/serviceTickets`, fetchOptions)
-            .then(response => response.json())
-            .then(() => history.push("/tickets"))
+        createTicket(newTicket).then(() => history.push("/tickets"))
     }
 
     return (
@@ -42,7 +33,7 @@ debugger
                         className="form-control"
                         placeholder="Brief description of problem"
                         onChange={(evt) => {
-                            const currentTicket = {...ticket}
+                            const currentTicket = { ...ticket }
                             currentTicket.description = evt.target.value
                             setTicket(currentTicket)
                         }} />
@@ -53,7 +44,7 @@ debugger
                     <label htmlFor="name">Emergency:</label>
                     <input type="checkbox"
                         onChange={(evt) => {
-                            const currentTicket = {...ticket}
+                            const currentTicket = { ...ticket }
                             currentTicket.emergency = evt.target.checked
                             setTicket(currentTicket)
                         }} />

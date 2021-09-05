@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { getEmployees } from "../ApiManager"
 
 export const EmployeeList = () => {
     const [employees, setEmployees] = useState([])
     const [employeeSpecialties, setEmployeeSpecialties] = useState("")
-    useEffect(
-        () => {
-            fetch(`${process.env.REACT_APP_BASE_URL}/employees`)
-                .then(res => res.json())
-                .then(
-                    (employees) => setEmployees(employees)
-                )
-        },
-        []
-    )
+    
+    useEffect(() => getEmployees().then((employees) => setEmployees(employees)), [])
     useEffect(() => {
         const specialties = employees.map(emp => emp.specialty).join(", ")
         setEmployeeSpecialties(specialties)

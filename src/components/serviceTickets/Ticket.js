@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useHistory, useParams } from "react-router-dom"
+import { retrieveOneTicket, getEmployees, updateEmployeeOnTicket } from "../ApiManager"
 
 
 export const Ticket = () => {
@@ -9,46 +10,25 @@ export const Ticket = () => {
     const { id } = useParams()
 
 
-    useEffect(() => {
-       fetch(`${process.env.REACT_APP_BASE_URL}/serviceTickets/${id}?_expand=customer&_expand=employee`)
-            .then(res => res.json())
-            .then(t => setTicket(t))
-    }, [id]
-    )
 
-        // Fetch all employees
-        useEffect(
-            () => {
-                fetch(`http://localhost:8088/employees`)
-                    .then(res => res.json())
-                    .then(syncEmployees)
-            },
-            []  // Empty dependency array only reacts to JSX initial rendering
-        )
+    useEffect(() => retrieveOneTicket(id).then(t => setTicket(t)), [id])
 
-        const assignEmployee = (evt) => {
+    useEffect(() => getEmployees().then(syncEmployees),[])
 
-            // Construct a new object to replace the existing one in the API
-            const updatedTicket = {
-                customerId: ticket.customerId,
-                employeeId: parseInt(evt.target.value),
-                description: ticket.description,
-                emergency: ticket.emergency,
-                dateCompleted: ticket.dateCompleted
-            }
-    
-            // Perform the PUT HTTP request to replace the resource
-            fetch(`http://localhost:8088/serviceTickets/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(updatedTicket)
-            })
-                .then(() => {
-                    history.push("/tickets")
-                })
+    const assignEmployee = (evt) => {
+
+        // Construct a new object to replace the existing one in the API
+        const updatedTicket = {
+            customerId: ticket.customerId,
+            employeeId: parseInt(evt.target.value),
+            description: ticket.description,
+            emergency: ticket.emergency,
+            dateCompleted: ticket.dateCompleted
         }
+
+    
+        updateEmployeeOnTicket(updatedTicket, id).then(() => history.push("/tickets"))
+    }
     
     return (
         <>

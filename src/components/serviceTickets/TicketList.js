@@ -1,34 +1,14 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 import { Link } from "react-router-dom"
+import { getTickets, deleteTicket } from "../ApiManager"
 import "./Ticket.css"
 
 export const TicketList = () => {
     const [tickets, setServiceTickets] = useState([])
     const history = useHistory()
 
-    const deleteTicket = (id) => {
-        fetch(`http://localhost:8088/serviceTickets/${id}`, {
-            method: "DELETE"
-        })
-        .then(() => getTickets())
-    }
-
-    const getTickets = () => {
-        return fetch(`${process.env.REACT_APP_BASE_URL}/serviceTickets?_expand=customer&_expand=employee`)
-            .then(res => res.json())
-            .then(
-                (serviceTickets) => setServiceTickets(serviceTickets)
-            )
-    }
-
-    useEffect(
-        () => {
-            getTickets()
-        },
-        []
-    )
-
+    useEffect(() => getTickets().then((serviceTickets) => setServiceTickets(serviceTickets)), [])
 
     return (
         <>

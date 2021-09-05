@@ -13,7 +13,7 @@ export const Login = () => {
 
     const handleLogin = (e) => {
         e.preventDefault()
-        existingUserCheck()
+        existingUserCheck(email)
             .then(user => user.length ? user[0] : false)
             .then(exists => {
                 if (exists) {

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
 export const EmployeeList = () => {
     const [employees, setEmployees] = useState([])
-    const [ employeeSpecialties, setEmployeeSpecialties] = useState("")
+    const [employeeSpecialties, setEmployeeSpecialties] = useState("")
     useEffect(
         () => {
             fetch(`${process.env.REACT_APP_BASE_URL}/employees`)
@@ -20,11 +21,12 @@ export const EmployeeList = () => {
 
     return (
         <>
-        <h2>Employees</h2>
-        <div>Specialties: {employeeSpecialties}</div>
+            <h2>Employees</h2>
+            <div>Specialties: {employeeSpecialties}</div>
             {
                 employees.map(
-                    (employee) => <h3 key={`employee--${employee.id}`} >{employee.name}</h3>
+                    (employee) => <h3 key={`employee--${employee.id}`}>
+                        <Link to={`/employees/${employee.id}`}>{employee.name}</Link></h3>
                 )
             }
         </>

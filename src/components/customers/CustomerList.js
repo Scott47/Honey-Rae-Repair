@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
 export const CustomerList = () => {
     const [customers, setCustomers] = useState([])
@@ -27,7 +28,7 @@ export const CustomerList = () => {
             <div>{totalCustomerMessage}</div>
             {
                 customers.slice(0, 5).map(
-                    (customer) => <h3 key={`customer--${customer.id}`} >{customer.name}</h3>
+                    (customer) => <h3 key={`customer--${customer.id}`} ><Link to={`customers/${customer.id}`}>{customer.name}</Link></h3>
                 )
             }
         </>
